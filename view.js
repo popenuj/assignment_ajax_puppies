@@ -13,16 +13,21 @@ APP.View = (function() {
     $("form[data-ajaxremote='true']").submit(function(event){
       event.preventDefault();
       var $el = $(event.target);
-      var formData = $el.serialize();
-      console.log(formData);
+      var name = $('#name').val();
+      var breed_id = $('#breed_id').val();
+
       $.ajax({
         url: $el.attr("action"),
         method: "POST",
-        contentType: "application/x-www-form-urlencoded",
-        dataType: 'json',
-        data: formData,
+        contentType: 'application/json',
+        data: JSON.stringify({ name, breed_id}),
         success: addPupCB,
       })
+
+
+// result = HTTParty.post('https://ajax-puppies.herokuapp.com/puppies.json',
+// body: {name: "Fido", breed_id: 112}.to_json,
+// :headers => { 'Content-Type' => 'application/json' })
     });
   };
 
