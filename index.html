@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>A Web Page</title>
+  </head>
+  <body>
+    <h1>The AJAX Puppy Shelter</h1>
+    <div class="">
+      <h2>Register a new puppy</h2>
+      <label for="name">Name</label>
+      <input type="name" name="" value="">
+      <label for="breed">Breed</label>
+      <select class="breed" name="">
+        <option value="shihtzu">Shih Tzu</option>
+        <option value="poodle">Poodle</option>
+        <option value="boxer">Boxer</option>
+        <option value="pug">Pug</option>
+      </select>
+      <input type="submit" name="" value="REGISTER PUPPY">
+    </div>
+    <div class="">
+      <h2>Our puppies:</h2>
+      <a href="https://ajax-puppies.herokuapp.com/puppies.json">Refresh puppies list</a>
+      <ul id="puppy-list">
+      </ul>
+    </div>
+  </body>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  <script src="model.js"></script>
+  <script src="view.js"></script>
+  <script src="controller.js"></script>
+</html>
