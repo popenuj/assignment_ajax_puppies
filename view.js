@@ -4,10 +4,27 @@ APP.View = (function() {
   var _$refreshLink = $("a").eq(0);
   var _$puppyList = $('#puppy-list');
 
-  var init = function(refreshPupsCB) {
+  var init = function(refreshPupsCB, addPupCB) {
     _addRefreshListener(refreshPupsCB);
-  }
+    _addAdoptionListener(addPupCB);
+  };
 
+  var _addAdoptionListener = function(addPupCB) {
+    $("form[data-ajaxremote='true']").submit(function(event){
+      event.preventDefault();
+      var $el = $(event.target);
+      var formData = $el.serialize();
+      console.log(formData);
+      $.ajax({
+        url: $el.attr("action"),
+        method: "POST",
+        contentType: "application/x-www-form-urlencoded",
+        dataType: 'json',
+        data: formData,
+        success: addPupCB,
+      })
+    });
+  };
 
   var _addRefreshListener = function(refreshPupsCB) {
     _$refreshLink.click(function(e) {
@@ -24,12 +41,16 @@ APP.View = (function() {
 
   var renderPuppies = function renderPuppies(puppies) {
     for(var i = 0; i < puppies.length; i++) {
-      var text = '<span>'+puppies[i].name+'</span> '+'('+puppies[i].breed.name+'), created '+ APP.timeSince(puppies[i].created_at+' ago -- ');
-      var link = $('<a>').attr('href', '#').text('adopt');
-      var li = $('<li>').text(text).append(link);
-
+      var li = _buildPuppyLi(puppies[i]);
       _$puppyList.append(li);
     }
+  };
+
+  var _buildPuppyLi = function(puppyObject) {
+    var name = $('<b>').text(puppyObject.name);
+    var text = ' ('+puppyObject.breed.name+'), created '+ APP.timeSince(puppyObject.created_at)+' ago -- ';
+    var link = $('<a>').attr('href', '#').text('adopt');
+    return $('<li>').append(name).append(text).append(link);
   }
 
   return {

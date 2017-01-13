@@ -9,16 +9,18 @@
     <h1>The AJAX Puppy Shelter</h1>
     <div class="">
       <h2>Register a new puppy</h2>
-      <label for="name">Name</label>
-      <input type="name" name="" value="">
-      <label for="breed">Breed</label>
-      <select class="breed" name="">
-        <option value="shihtzu">Shih Tzu</option>
-        <option value="poodle">Poodle</option>
-        <option value="boxer">Boxer</option>
-        <option value="pug">Pug</option>
-      </select>
-      <input type="submit" name="" value="REGISTER PUPPY">
+      <form  data-ajaxremote='true' class="" action="https://ajax-puppies.herokuapp.com/puppies.json" method="post">
+        <label for="name">Name</label>
+        <input type="text" name="name" value="">
+        <label for="breed">Breed</label>
+        <select class="breed" name="breed_id">
+          <option value="1">Shih Tzu</option>
+          <option value="2">Poodle</option>
+          <option value="3">Boxer</option>
+          <option value="4">Pug</option>
+        </select>
+        <input type="submit" name="" value="REGISTER PUPPY">
+      </form>
     </div>
     <div class="">
       <h2>Our puppies:</h2>

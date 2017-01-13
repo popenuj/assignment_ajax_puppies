@@ -13,8 +13,13 @@ APP.Model = (function() {
     return _puppies;
   }
 
+  var addPuppy = function addPuppy() {
+
+  }
+
   return {
     setPuppies: setPuppies,
-    getPuppies: getPuppies
+    getPuppies: getPuppies,
+    addPuppy: addPuppy
   }
 })();

@@ -4,10 +4,14 @@ APP.Controller = (function(view, model) {
   var _refreshPupsCB = function(response) {
     model.setPuppies(response);
     view.renderPuppies(model.getPuppies());
-  }
+  };
+
+  var _addPupCB = function(response) {
+    console.log("submitted form!", response)
+  };
 
   var init = function() {
-    view.init(_refreshPupsCB);
+    view.init(_refreshPupsCB, _addPupCB);
   };
 
   return {
@@ -20,6 +24,8 @@ $(document).ready(function() {
 });
 
 APP.timeSince = function timeSince(date) {
+
+    if (typeof date === "string") {date = Date.parse(date)}
 
     var seconds = Math.floor((new Date() - date) / 1000);
 
