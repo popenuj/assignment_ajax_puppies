@@ -1,15 +1,17 @@
 var APP = APP || {}
 
-APP.View = (function() {
+APP.View = (function($) {
   var _$refreshLink = $("a").eq(0);
   var _$puppyList = $('#puppy-list');
+  var _$ul = $('ul');
 
-  var init = function(refreshPupsCB, addPupCB) {
+  var init = function(refreshPupsCB, addPupCB, adoptPupCB) {
     _addRefreshListener(refreshPupsCB);
-    _addAdoptionListener(addPupCB);
+    _addPuppyToPen(addPupCB);
+    _addAdoptionListener(adoptPupCB);
   };
 
-  var _addAdoptionListener = function(addPupCB) {
+  var _addPuppyToPen = function(addPupCB) {
     $("form[data-ajaxremote='true']").submit(function(event){
       event.preventDefault();
       var $el = $(event.target);
@@ -23,11 +25,6 @@ APP.View = (function() {
         data: JSON.stringify({ name, breed_id}),
         success: addPupCB,
       })
-
-
-// result = HTTParty.post('https://ajax-puppies.herokuapp.com/puppies.json',
-// body: {name: "Fido", breed_id: 112}.to_json,
-// :headers => { 'Content-Type' => 'application/json' })
     });
   };
 
@@ -44,8 +41,22 @@ APP.View = (function() {
     });
   };
 
+  var _addAdoptionListener = function(adoptPupCB) {
+    _$ul.on("click", "a", function(e) {
+      e.preventDefault();
+      $.ajax({
+        url: $(e.target).attr("href"),
+        method: 'DELETE',
+        dataType: 'json',
+        success: adoptPupCB
+      })
+    });
+  };
+
   var renderPuppies = function renderPuppies(puppies) {
-    for(var i = 0; i < puppies.length; i++) {
+    _$puppyList.html("");
+    var i = puppies.length;
+    while (i--) {
       var li = _buildPuppyLi(puppies[i]);
       _$puppyList.append(li);
     }
@@ -54,7 +65,8 @@ APP.View = (function() {
   var _buildPuppyLi = function(puppyObject) {
     var name = $('<b>').text(puppyObject.name);
     var text = ' ('+puppyObject.breed.name+'), created '+ APP.timeSince(puppyObject.created_at)+' ago -- ';
-    var link = $('<a>').attr('href', '#').text('adopt');
+    var url = "https://ajax-puppies.herokuapp.com/puppies/" +  puppyObject.id +".json"
+    var link = $('<a>').attr('href', url).text('adopt');
     return $('<li>').append(name).append(text).append(link);
   }
 
@@ -62,7 +74,7 @@ APP.View = (function() {
     init: init,
     renderPuppies: renderPuppies
   }
-})();
+})($);
 
 // {"name":"New one",
 // "breed":{"id":112,"name":"Affenpinscher",

@@ -7,11 +7,17 @@ APP.Controller = (function(view, model) {
   };
 
   var _addPupCB = function(response) {
-    console.log("submitted form!", response)
+    model.addPuppy(response)
+    view.renderPuppies(model.getPuppies());
+  };
+
+  var adoptPupCB = function(response) {
+    model.adoptPup(response);
+    view.renderPuppies(model.getPuppies());
   };
 
   var init = function() {
-    view.init(_refreshPupsCB, _addPupCB);
+    view.init(_refreshPupsCB, _addPupCB, adoptPupCB);
   };
 
   return {
